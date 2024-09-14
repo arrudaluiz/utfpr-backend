@@ -49,8 +49,8 @@ O usuário administrador deverá ter os seguintes privilégios:
 
 O sistema CRUD deverá:
 
-- [ ] Permitir a realização de três cadastros (operações de CRUD completa);
-- [ ] Ter relacionamentos de um-para-muitos ou muitos-para-muitos entre suas relações;
+- [x] Permitir a realização de três cadastros (operações de CRUD completa);
+- [x] Ter relacionamentos de um-para-muitos ou muitos-para-muitos entre suas relações;
 - [x] Restringir as operações de inserção, alteração e exclusão somente para usuários autenticados;
 - [ ] Validar os dados recebidos pelo usuário;
 - [x] Gerar mensagens de erros personalizadas conforme o erro obtido. As mensagens de erros e sucessos deverão ser enviadas juntamente com as respostas;
