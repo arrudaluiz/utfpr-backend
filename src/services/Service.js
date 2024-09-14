@@ -7,11 +7,12 @@ export class Service {
     autoBind(this);
   }
 
-  async readAll({ sortBy = { createdAt: -1 }, page = 0, limit, ...query }) {
+  async readAll({ sortBy = { createdAt: -1 }, page = 0, limit, populate, ...query }) {
     const limitOptions = [5, 10, 30];
     const allowedLimit = limitOptions.includes(Number(limit))
       ? Number(limit)
       : limitOptions[0];
+    const populated = populate ? JSON.parse(populate) : null;
 
     try {
       const documents = await this.model
@@ -19,6 +20,7 @@ export class Service {
         .sort(sortBy)
         .skip(page * allowedLimit)
         .limit(allowedLimit)
+        .populate(populated)
         .lean();
       const count = await this.model.countDocuments(query);
 
@@ -28,9 +30,10 @@ export class Service {
     }
   }
 
-  async read(id) {
+  async read(id, populate) {
+    const populated = populate ? JSON.parse(populate) : null;
     try {
-      const document = await this.model.findById(id).lean();
+      const document = await this.model.findById(id).populate(populated).lean();
 
       if (!document) {
         const error = new Error(
