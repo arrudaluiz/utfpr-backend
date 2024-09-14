@@ -2,6 +2,7 @@ import autoBind from 'auto-bind';
 import { hashSync } from 'bcrypt';
 import { Controller } from './Controller.js';
 import UserService from '../services/UserService.js';
+import { HttpError } from '../helpers/HttpError.js';
 
 class UserController extends Controller {
   constructor(service) {
@@ -16,8 +17,10 @@ class UserController extends Controller {
       data.password = hashSync(password, 10);
       const response = await this.service.create(data);
       return res.status(response.statusCode).json(response);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      const error = new HttpError(err);
+      error.log(req);
+      return res.status(error.statusCode).json({ error });
     }
   }
 
@@ -29,8 +32,10 @@ class UserController extends Controller {
 
       const response = await this.service.delete(req.params.id);
       return res.status(response.statusCode).json(response);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      const error = new HttpError(err);
+      error.log(req);
+      return res.status(error.statusCode).json({ error });
     }
   }
 }
